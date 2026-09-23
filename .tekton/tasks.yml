@@ -1,0 +1,27 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: cleanup
+spec:
+  steps:
+    - name: cleanup
+      image: python:3.11
+      script: |
+        #!/bin/sh
+        echo "Cleaning up..."
+        rm -rf __pycache__
+        rm -rf .pytest_cache
+
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: test
+spec:
+  steps:
+    - name: test
+      image: python:3.11
+      script: |
+        #!/bin/sh
+        pip install nose
+        nosetests
